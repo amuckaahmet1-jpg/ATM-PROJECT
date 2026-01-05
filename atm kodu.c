@@ -1,0 +1,112 @@
+#include <stdio.h>
+
+void bakiyeGoster(int *bakiye) {
+    printf("Mevcut bakiye: %d TL\n", *bakiye);
+}
+
+void paraYatir(int *bakiye) {
+    int tutar;
+    printf("Yatirilacak tutar: ");
+    scanf("%d", &tutar);
+    *bakiye += tutar;
+    printf("Yeni bakiye: %d TL\n", *bakiye);
+}
+
+void paraCek(int *bakiye) {
+    int tutar;
+    printf("Cekilecek tutar: ");
+    scanf("%d", &tutar);
+
+    if (tutar > *bakiye) {
+        printf("Yetersiz bakiye!\n");
+        return;
+    }
+
+    *bakiye -= tutar;
+    printf("Yeni bakiye: %d TL\n", *bakiye);
+}
+
+void eftYap(int *bakiye) {
+    int tutar;
+    char iban[40];
+
+    printf("IBAN:TR");
+    scanf("%s", iban);
+
+    printf("EFT tutari: ");
+    scanf("%d", &tutar);
+
+    if (tutar > *bakiye) {
+        printf("Yetersiz bakiye! EFT yapilamadi.\n");
+        return;
+    }
+
+    *bakiye -= tutar;
+    printf("EFT yapildi. Yeni bakiye: %d TL\n", *bakiye);
+}
+
+int main() {
+    int dogruPin = 1905;
+    int pin;
+    int bakiye = 10000;
+    int secim;
+
+    int deneme = 0;
+
+    while (deneme < 3) {
+        printf("PIN giriniz: ");
+        scanf("%d", &pin);
+
+        if (pin == dogruPin) {
+            printf("Giris basarili.\n");
+            break;
+        } else {
+            deneme++;
+            printf("Hatali PIN!\n");
+        }
+    }
+
+    if (deneme == 3) {
+        printf("Kart bloke edildi.\n");
+        return 0;
+    }
+
+    do {
+        printf("\n====================================\n");
+        printf("            IZU BANK          \n");
+        printf("====================================\n");
+        printf(" [1]  Bakiye Goruntule\n");
+        printf(" [2]  Para Yatir\n");
+        printf(" [3]  Para Cek\n");
+        printf(" [4]  EFT / Havale\n");
+        printf(" [5]  Cikis\n");
+        printf("------------------------------------\n");
+        printf("Seciminiz: ");
+        scanf("%d", &secim);
+
+        switch (secim) {
+            case 1:
+                bakiyeGoster(&bakiye);
+                break;
+            case 2:
+                paraYatir(&bakiye);
+                break;
+            case 3:
+                paraCek(&bakiye);
+                break;
+            case 4:
+                eftYap(&bakiye);
+                break;
+            case 5:
+                printf("Cikis yapiliyor.\n");
+                break;
+            default:
+                printf("Gecersiz secim!\n");
+                break;
+        }
+
+    } while (secim != 5);
+
+    return 0;
+}
+
